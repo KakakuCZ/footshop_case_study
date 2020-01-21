@@ -1,7 +1,6 @@
 <?php
 
 use App\Log;
-use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
 require __DIR__ . '/../config/config.php';
@@ -17,19 +16,7 @@ Log::$instance = $loggerFactory->createLogger(
     Logger::DEBUG
 )->getLoggerInstance();
 
-try {
-    $type = $_GET['type'] ?? 'product';
-    switch ($type) {
-        case 'stats':
-            $controller = new \App\Controller\StatsController($twig);
-            break;
-        default:
-            $controller = new \App\Controller\ProductController($twig);
-    }
-
-    $controller->render();
-} catch (\Throwable $e) {
-    Log::critical($e->getMessage());
-    echo $twig->render('error.html');
-}
+//Too lazy to create DI container
+$router = new \App\Model\Routing\Router($twig);
+$router->navigate($_GET['type']);
 
