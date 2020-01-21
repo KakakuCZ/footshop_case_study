@@ -19,7 +19,7 @@ try {
     die();
 }
 
-Log::$instance  = $log;
+Log::$instance = $log;
 
 try {
     $type = $_GET['type'] ?? 'product';
