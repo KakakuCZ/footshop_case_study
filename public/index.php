@@ -12,7 +12,12 @@ $twig = new Twig_Environment($loader);
 
 // create a log channel
 $log = new Logger('main_logging_channel');
-$log->pushHandler(new StreamHandler(__DIR__ . '/../var/logs/main.log', Logger::DEBUG));
+try {
+    $log->pushHandler(new StreamHandler(__DIR__ . '/../var/logs/main.log', Logger::DEBUG));
+} catch (Exception $e) {
+    echo('Provided stream for logging has not correct type.');
+    die();
+}
 
 Log::$instance  = $log;
 
