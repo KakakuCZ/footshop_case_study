@@ -10,16 +10,12 @@ require __DIR__ . '/../vendor/autoload.php';
 $loader = new Twig_Loader_Filesystem(__DIR__ . '/../templates');
 $twig = new Twig_Environment($loader);
 
-// create a log channel
-$log = new Logger('main_logging_channel');
-try {
-    $log->pushHandler(new StreamHandler(__DIR__ . '/../var/logs/main.log', Logger::DEBUG));
-} catch (Exception $e) {
-    echo('Provided stream for logging has not correct type.');
-    die();
-}
-
-Log::$instance = $log;
+$loggerFactory = new \App\Model\Logging\LoggerFactory();
+Log::$instance = $loggerFactory->createLogger(
+    'appLogger',
+    'main.log',
+    Logger::DEBUG
+)->getLoggerInstance();
 
 try {
     $type = $_GET['type'] ?? 'product';
