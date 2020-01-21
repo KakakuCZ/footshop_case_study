@@ -11,7 +11,7 @@ $loader = new Twig_Loader_Filesystem(__DIR__ . '/../templates');
 $twig = new Twig_Environment($loader);
 
 // create a log channel
-$log = new Logger('name');
+$log = new Logger('main_logging_channel');
 $log->pushHandler(new StreamHandler(__DIR__ . '/../var/logs/main.log', Logger::DEBUG));
 
 Log::$instance  = $log;
